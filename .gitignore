@@ -2,3 +2,4 @@ secret.py
 sourceme.sh
 virtualenv
 *.pyc
+*.swp
