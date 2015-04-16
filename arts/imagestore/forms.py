@@ -19,7 +19,7 @@ from django.utils.safestring import mark_safe
 
 from sorl.thumbnail.admin.current import AdminImageWidget
 
-from models import Image, Album
+from .models import Image, Album
 
 
 class UserChoiceField(forms.ModelChoiceField):
@@ -186,7 +186,9 @@ class ZipImageAdminForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ZipImageAdminForm, self).__init__(*args, **kwargs)
 
+        print("PRE: get_request()")
         owner = get_request().user
+        print(owner)
 
         qa = Album.objects.all().order_by('user__first_name', 'name')
         qu = User.objects.filter(is_active=True)

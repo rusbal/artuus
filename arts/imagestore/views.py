@@ -1,5 +1,6 @@
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
+from django.db.models import Q
 from django.utils.decorators import method_decorator
 from imagestore.models import Album, Image
 from imagestore.models import image_applabel, image_classname
@@ -14,8 +15,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from tagging.models import TaggedItem
 from tagging.utils import get_tag
-from utils import load_class
-from django.db.models import Q
+
+from .utils import load_class
 
 try:
     from django.contrib.auth import get_user_model

@@ -58,4 +58,5 @@ albumimage_applabel = AlbumImage._meta.app_label
 albumimage_classname = AlbumImage.__name__.lower()
 
 
-from upload import AlbumUpload
+from .upload import AlbumUpload
+

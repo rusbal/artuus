@@ -6,8 +6,8 @@ from django.http import HttpResponseRedirect
 from sorl.thumbnail.admin import AdminInlineImageMixin
 
 from imagestore.models import Image, Album, AlbumUpload, AlbumImage
-from forms import AlbumAdminForm, ImageAdminForm, ZipImageAdminForm, InlineImageForm
-from helpers.string import reverse_slug
+from .forms import AlbumAdminForm, ImageAdminForm, ZipImageAdminForm, InlineImageForm
+from .helpers.string import reverse_slug
 
 
 class FilterUserAdmin(admin.ModelAdmin): 

@@ -45,7 +45,6 @@ def process_zipfile(uploaded_album):
                 uploaded_album.album = Album.objects.create(name=uploaded_album.new_album_name,
                                                             user=uploaded_album.user)
 
-        from cStringIO import StringIO
         for filename in sorted(zip.namelist()):
             if filename.startswith('__'):  # do not process meta files
                 continue
@@ -57,14 +56,25 @@ def process_zipfile(uploaded_album):
                     # load() could spot a truncated JPEG, but it loads the entire
                     # image in memory, which is a DoS vector. See #3848 and #18520.
                     # verify() must be called immediately after the constructor.
-                    PILImage.open(StringIO(data)).verify()
-                except Exception, ex:
+
+                    try:
+                        from cStringIO import StringIO
+                        PILImage.open(StringIO(data)).verify()
+                    except:
+                        from io import BytesIO
+                        PILImage.open(BytesIO(data)).verify()
+                        print("DEBUG: from io import BytesIO")
+
+                except Exception as ex:
                     # if a "bad" file is found we just skip it.
-                    print('Error verify image: %s' % ex.message)
+                    # print('Error verify image: %s' % ex.message)
+                    print('Error verify image: %s' % ex)
                     continue
+
                 if hasattr(data, 'seek') and callable(data.seek):
-                    print 'seeked'
+                    print('seeked')
                     data.seek(0)
+
                 try:
                     img = Image()
                     img.image.save(filename, ContentFile(data))
@@ -76,8 +86,9 @@ def process_zipfile(uploaded_album):
                     AlbumImage.objects.create(album=uploaded_album.album,
                                               image=img,
                                               order=0)
-                except Exception, ex:
-                    print('error create Image: %s' % ex.message)
+                except Exception as ex:
+                    # print('error create Image: %s' % ex.message)
+                    print('error create Image: %s' % ex)
         zip.close()
 
 

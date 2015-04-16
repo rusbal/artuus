@@ -1,1 +1,5 @@
 Django==1.6
+sorl-thumbnail
+django-autocomplete-light
+django-tagging
+Pillow
